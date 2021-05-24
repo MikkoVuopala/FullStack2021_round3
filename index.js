@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
-const Number = require('./models/numbers')
+const Nro = require('./models/numbers')
 
 app.use(express.json())
 app.use(morgan('tiny'))
@@ -39,7 +39,7 @@ const generateId = () => {
 }
 
 app.get('/api/persons', (req, res) => {
-  Number.find({}).then(persons => {
+  Nro.find({}).then(persons => {
     res.json(persons)
   })
 })
