@@ -86,15 +86,18 @@ if (persons.some(p => p.name === body.name)) {
     })
 }
 
-  const person = {
-      id: generateId(),
+  const person = new Nro({
+      //id: generateId(),
       name: body.name,
       number: body.number
-  }
+  })
 
-  persons = persons.concat(person)
+  person.save().then(savedNro => {
+    response.json(savedNro)
+  })
+  /*persons = persons.concat(person)
 
-  response.json(person)
+  response.json(person)*/
 })
 
 const PORT = process.env.PORT
