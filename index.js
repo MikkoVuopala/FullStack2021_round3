@@ -48,10 +48,11 @@ const generateId = () => {
   return Math.floor(Math.random() * Math.floor(1000));
 }
 
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
   Nro.find({}).then(persons => {
     res.json(persons)
   })
+  .catch(error => next(error))
 })
 
 app.get('/info', (req, res) => {
@@ -59,7 +60,7 @@ app.get('/info', (req, res) => {
   ${Date()}`)
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   /*const id = Number(request.params.id)
   const person = persons.find(person => person.id === id)
   if (person) {
@@ -73,13 +74,10 @@ app.get('/api/persons/:id', (request, response) => {
     } else {
       response.status(404).end()
     }
-  }).catch(error => {
-    console.log(error)
-    response.status(500).end()
-  })
+  }).catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   /*const id = Number(request.params.id)
   persons = persons.filter(person => person.id !== id)*/
   Nro.findByIdAndRemove(request.params.id).then(result => {
