@@ -56,8 +56,12 @@ app.get('/api/persons', (req, res, next) => {
 })
 
 app.get('/info', (req, res) => {
-  res.send(`<p>Phonebook has info for ${persons.length} people.</p>
+  var numberCount = Nro.countDocuments({}, function(err, count) {
+    res.send(`<p>Phonebook has info for ${count} people.</p>
   ${Date()}`)
+  })
+  console.log(numberCount)
+  
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
