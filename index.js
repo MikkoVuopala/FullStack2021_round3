@@ -15,12 +15,14 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
 }
 
-let persons = [
+/*let persons = [
   {
       id: 1,
       name: "Arto Hellas",
@@ -41,7 +43,7 @@ let persons = [
       name: "Mary Poppendick",
       number: "39-23-6423122"
   }
-]
+]*/
 
 
 const generateId = () => {
@@ -60,7 +62,6 @@ app.get('/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${count} people.</p>
   ${Date()}`)
   })
-  console.log(numberCount)
   
 })
 
@@ -93,7 +94,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (!body.name) {
+  /*if (!body.name) {
       return response.status(400).json({
           error: 'name missing'
       })
@@ -108,7 +109,7 @@ if (persons.some(p => p.name === body.name)) {
     return response.status(400).json({
         error: `${body.name} is already added to the phonebook.`
     })
-}
+}*/
 
   const person = new Nro({
       //id: generateId(),
@@ -116,9 +117,11 @@ if (persons.some(p => p.name === body.name)) {
       number: body.number
   })
 
-  person.save().then(savedNro => {
-    response.json(savedNro)
-  })
+  person.save()
+  .then(savedNro => savedNro.toJSON())
+  .then(savedAndFormattedNro => response.json(savedAndFormattedNro))
+  .catch(error => console.log(error))
+
   /*persons = persons.concat(person)
 
   response.json(person)*/
