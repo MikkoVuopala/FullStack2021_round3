@@ -22,10 +22,6 @@ const errorHandler = (error, request, response, next) => {
     next(error)
 }
 
-/*const generateId = () => {
-    return Math.floor(Math.random() * Math.floor(1000))
-}*/
-
 app.get('/api/persons', (req, res, next) => {
     Nro.find({}).then(persons => {
         res.json(persons)
