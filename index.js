@@ -91,7 +91,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
   .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   /*if (!body.name) {
@@ -120,7 +120,7 @@ if (persons.some(p => p.name === body.name)) {
   person.save()
   .then(savedNro => savedNro.toJSON())
   .then(savedAndFormattedNro => response.json(savedAndFormattedNro))
-  .catch(error => console.log(error))
+  .catch(error => next(error))
 
   /*persons = persons.concat(person)
 
